@@ -11,36 +11,44 @@ class Shop {
     this.items = items;
   }
 
+  updateSulfuras() {
+    return;
+  }
+  updateAgedBrie(item) {
+    item.quality = Math.min(50, item.quality + 1);
+    item.sellIn = item.sellIn - 1;
+  }
+
   updateQuality() {
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i].name === "Sulfuras, Hand of Ragnaros") {
+    for (const item of this.items) {
+      if (item.name === "Sulfuras, Hand of Ragnaros") {
+        this.updateSulfuras();
         continue;
       }
 
-      if (this.items[i].name == "Aged Brie") {
-        this.items[i].quality = Math.min(50, this.items[i].quality + 1);
-        this.items[i].sellIn = this.items[i].sellIn - 1;
+      if (item.name == "Aged Brie") {
+        this.updateAgedBrie(item);
         continue;
       }
 
-      if (this.items[i].name == "Backstage passes to a TAFKAL80ETC concert") {
-        this.items[i].sellIn = this.items[i].sellIn - 1;
-        const sellIn = this.items[i].sellIn;
+      if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
+        item.sellIn = item.sellIn - 1;
+        const sellIn = item.sellIn;
         const concertbetween6And10Days = sellIn >= 6 && sellIn < 11 ? 1 : 0;
         const concertInLessThan6Days = sellIn < 6 && sellIn >= 0 ? 1 : 0;
         const concertFinished = sellIn < 0 ? 1 : 0;
-        this.items[i].quality +=
+        item.quality +=
           concertbetween6And10Days * 2 +
           concertInLessThan6Days * 3 -
-          concertFinished * this.items[i].quality;
-        this.items[i].quality = Math.min(50, this.items[i].quality);
+          concertFinished * item.quality;
+        item.quality = Math.min(50, item.quality);
 
         continue;
       }
 
-      if (this.items[i].quality > 0) {
-        this.items[i].quality = this.items[i].quality - 1;
-        this.items[i].sellIn = this.items[i].sellIn - 1;
+      if (item.quality > 0) {
+        item.quality = item.quality - 1;
+        item.sellIn = item.sellIn - 1;
       }
     }
 
