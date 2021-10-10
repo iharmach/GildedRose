@@ -21,7 +21,7 @@ describe("Gilded Rose", function () {
 });
 
 describe("Aged Brie", () => {
-  it("should update if quality is > 50 and sellIn is > 0", () => {
+  it("should update if quality is >= 50", () => {
     const items = [new Item("Aged Brie", 3, 50)];
 
     const gildedRose = new Shop(items);
@@ -31,7 +31,7 @@ describe("Aged Brie", () => {
     expect(updatedItems[0].quality).toEqual(50);
   });
 
-  it("should update if quality is < 50 and sellIn is > 0", () => {
+  it("should update if quality is < 50", () => {
     const items = [new Item("Aged Brie", 2, 30)];
 
     const gildedRose = new Shop(items);
@@ -89,6 +89,16 @@ describe("Elixir of the Mongoose", () => {
     expect(updatedItems[0].sellIn).toEqual(2);
     expect(updatedItems[0].quality).toEqual(4);
   });
+
+  it("should update eventhough quality<=0", () => {
+    const items = [new Item("Elixir of the Mongoose", 2, 0)];
+
+    const gildedRose = new Shop(items);
+    const updatedItems = gildedRose.updateQuality();
+
+    expect(updatedItems[0].sellIn).toEqual(1);
+    expect(updatedItems[0].quality).toEqual(0);
+  });
 });
 
 describe("Sulfuras, Hand of Ragnaros", () => {
@@ -100,5 +110,26 @@ describe("Sulfuras, Hand of Ragnaros", () => {
 
     expect(updatedItems[0].sellIn).toEqual(5);
     expect(updatedItems[0].quality).toEqual(80);
+  });
+});
+
+describe("Conjured", () => {
+  it("should update if quality > 0", () => {
+    const items = [new Item("Conjured", 5, 42)];
+
+    const gildedRose = new Shop(items);
+    const updatedItems = gildedRose.updateQuality();
+
+    expect(updatedItems[0].sellIn).toEqual(4);
+    expect(updatedItems[0].quality).toEqual(40);
+  });
+  it("should update if quality is 1", () => {
+    const items = [new Item("Conjured", 5, 1)];
+
+    const gildedRose = new Shop(items);
+    const updatedItems = gildedRose.updateQuality();
+
+    expect(updatedItems[0].sellIn).toEqual(4);
+    expect(updatedItems[0].quality).toEqual(0);
   });
 });
